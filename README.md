@@ -2,12 +2,20 @@
 
 ### Building
 
-Using cmake to build our tooling:
+Use cmake to build our tooling:
 
 ```
 $ cmake -B build/
 $ cmake --build build --target all
 ```
+
+To clean, use
+
+```
+$ cmake --build build --target clean
+```
+
+### Using
 
 In order to get a combination (suitable for easy graphing), run
 
