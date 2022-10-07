@@ -4,8 +4,8 @@
 #include <memory.h>
 
 const unsigned int ITERATIONS{3};
-const unsigned int ROWS{500};
-const unsigned int COLUMNS{500};
+const unsigned int ROWS{5000};
+const unsigned int COLUMNS{5000};
 
 #ifndef X 
 #pragma error You must define X.
@@ -18,13 +18,14 @@ struct element {
 element array[ROWS][COLUMNS];
 
 int row_major() {
-  volatile element sum{0};
+  volatile char sum{0};
 
   auto before = std::chrono::high_resolution_clock::now();
   for (int i = 0; i<ITERATIONS; i++) {
+    sum = 0;
     for (int r = 0; r < ROWS; r++) {
       for (int c = 0; c < COLUMNS; c++) {
-        memcpy((void*)&sum, &array[r][c], sizeof(struct element));
+        sum += array[r][c].contained[0]++;
       }
     }
   }
@@ -37,14 +38,14 @@ int row_major() {
 
 
 int column_major() {
-  volatile element sum{0};
-
+  volatile char sum{0};
   auto before = std::chrono::high_resolution_clock::now();
   for (int i = 0; i<ITERATIONS; i++) {
+    sum = 0;
     for (int c = 0; c < COLUMNS; c++) {
       for (int r = 0; r < ROWS; r++) {
         //std::cout << "column_then_row addr: " << (std::uintptr_t)(&(array[r][c])) << "\n";
-        memcpy((void*)&sum, &array[r][c], sizeof(struct element));
+        sum += array[r][c].contained[0]++;
       }
     }
   }
@@ -58,7 +59,7 @@ int column_major() {
 
 int main() {
   std::cout << "row major, column major\n";
-  unsigned int collections = 30;
+  unsigned int collections = 1;
   for (unsigned int i = 0; i<collections; i++) {
     row_major();
     column_major();

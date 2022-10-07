@@ -11,7 +11,7 @@ target_compile_options(row_major_measure PUBLIC -DROW_MAJOR)
 add_executable(col_major_measure loop_measure.cpp)
 target_compile_options(col_major_measure PUBLIC -DCOL_MAJOR)
 
-foreach(ELEMENT_SIZE RANGE 8 64 8)
+foreach(ELEMENT_SIZE RANGE 8 128 8)
 add_executable(loop_speed_${ELEMENT_SIZE} loop_speed_x.cpp)
 target_compile_options(loop_speed_${ELEMENT_SIZE} PUBLIC -DX=${ELEMENT_SIZE})
 endforeach()
